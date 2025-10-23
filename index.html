@@ -35,7 +35,7 @@
             --text-color: #f5f5f5;
             --card-bg: #1e1e1e;
             --sidebar-bg: linear-gradient(to bottom, #0d0d3d, #000022);
-            --header-bg: #2d2d2d; /* Lighter black for better contrast */
+            --header-bg: #2d2d2d;
             --light: #2d2d2d;
             --gray: #aaaaaa;
             --dark: #f5f5f5;
@@ -833,6 +833,7 @@
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
+            position: relative;
         }
         
         .module-card:hover {
@@ -891,6 +892,28 @@
             transition: width 0.5s;
         }
         
+        .module-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .module-card:hover .module-actions {
+            opacity: 1;
+        }
+        
+        .module-card.selected .module-actions {
+            opacity: 1;
+        }
+        
+        .btn-module {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+        
         /* Learning Content Section */
         .learning-container {
             background: var(--card-bg);
@@ -921,6 +944,9 @@
         
         .content-section {
             margin-bottom: 25px;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 8px;
         }
         
         .content-section h3 {
@@ -940,6 +966,13 @@
         
         .content-section li {
             margin-bottom: 5px;
+        }
+        
+        .learning-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
         }
         
         /* Quiz Section */
@@ -1797,6 +1830,9 @@
                     <button class="btn btn-secondary" id="start-quiz-btn">
                         <i class="fas fa-play"></i> Start Quiz
                     </button>
+                    <button class="btn btn-primary" id="review-material-btn">
+                        <i class="fas fa-redo"></i> Review Material
+                    </button>
                 </div>
             </div>
             
@@ -1862,7 +1898,7 @@
                     <div class="zara-avatar">Z</div>
                     <div class="zara-info">
                         <h3>ZaraAI Security Assistant</h3>
-                        <p>Your AI-powered security companion</p>
+                        <p>Your AI-powered security companion & productivity partner</p>
                     </div>
                     <div class="zara-status">
                         <div class="status-indicator"></div>
@@ -1873,7 +1909,7 @@
                 <div class="zara-chat" id="chat-messages">
                     <div class="message zara">
                         <div class="message-content">
-                            Hello! I'm ZaraAI, your security assistant. I'm back and ready to help protect your enterprise. How can I assist you today?
+                            Hello! I'm ZaraAI, your security assistant and productivity partner. I'm here to help protect your enterprise and support your success. How can I assist you today?
                         </div>
                     </div>
                     <div class="message user">
@@ -1889,7 +1925,7 @@
                 </div>
                 
                 <div class="zara-input">
-                    <input type="text" id="user-input" placeholder="Ask ZaraAI about your security...">
+                    <input type="text" id="user-input" placeholder="Ask ZaraAI about security, training, or productivity...">
                     <button id="send-btn">
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -1923,14 +1959,14 @@
                         </div>
                         
                         <div class="certificate-date">
-                            <div id="certificate-date">October 15, 2023</div>
+                            <div id="certificate-date">October 15, 2025</div>
                             <div class="signature-line"></div>
                             <div>Date of Completion</div>
                         </div>
                         
                         <div class="certificate-verification">
                             <div class="certificate-qr">QR CODE</div>
-                            <div>Verification Code: DIQ-2023-001</div>
+                            <div>Verification Code: DIQ-2025-001</div>
                         </div>
                     </div>
                 </div>
@@ -2069,15 +2105,26 @@
                 "Educate yourself about social engineering tactics",
                 "Implement the principle of least privilege for access control",
                 "Regularly review and update your security policies",
-                "Conduct security awareness training for all employees"
+                "Conduct security awareness training for all employees",
+                "Deepfake attacks are rising - verify video calls with known contacts",
+                "Report security incidents immediately to your IT department",
+                "Create a security-first culture where everyone feels responsible",
+                "Third-party vendors must comply with your Acceptable Use Policy",
+                "Mobile devices need the same security as desktop computers",
+                "Cloud security requires shared responsibility between you and providers"
             ],
             currentTipIndex: 0,
             leadership: {
                 thankYouMessages: 2 // Leaders start with 2 thank you messages
+            },
+            userProfile: {
+                humorStyle: 'professional',
+                lastActivity: new Date(),
+                meetingReminders: true
             }
         };
 
-        // Training modules data
+        // Enhanced Training modules data with new modules
         const trainingModules = [
             {
                 id: 'fundamentals',
@@ -2227,30 +2274,225 @@
                 ]
             },
             {
-                id: 'network-security',
-                title: 'Network Security',
-                icon: '🌐',
-                description: 'Understand how to secure networks, detect intrusions, and protect data in transit.',
+                id: 'deepfake-awareness',
+                title: 'Deepfake Awareness',
+                icon: '🎭',
+                description: 'Learn to identify and protect against AI-generated synthetic media and deepfake attacks.',
                 progress: 0,
-                content: [],
-                quiz: [],
+                content: [
+                    {
+                        title: 'Understanding Deepfakes',
+                        sections: [
+                            {
+                                title: 'What are Deepfakes?',
+                                content: 'Deepfakes are synthetic media where a person in an existing image or video is replaced with someone else\'s likeness using artificial intelligence.'
+                            },
+                            {
+                                title: 'How Deepfakes Are Created',
+                                content: 'Deepfakes use machine learning techniques like generative adversarial networks (GANs) to create convincing fake audio, images, and videos.'
+                            },
+                            {
+                                title: 'Common Deepfake Scenarios',
+                                content: 'CEO fraud videos, fake celebrity endorsements, political manipulation, and personal reputation attacks are common uses of deepfake technology.'
+                            }
+                        ]
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "What technology is primarily used to create deepfakes?",
+                        options: [
+                            "Generative Adversarial Networks (GANs)",
+                            "Blockchain technology",
+                            "Quantum computing",
+                            "Virtual reality"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which of these is a red flag for identifying deepfake videos?",
+                        options: [
+                            "Unnatural blinking patterns or facial movements",
+                            "High video quality",
+                            "Professional voice recording",
+                            "Consistent lighting throughout"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What should you do if you receive a suspicious video from a executive?",
+                        options: [
+                            "Verify through a separate communication channel",
+                            "Immediately follow the instructions in the video",
+                            "Share it with colleagues to warn them",
+                            "Assume it's legitimate if it looks real"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which industry is most targeted by deepfake attacks currently?",
+                        options: [
+                            "Financial services and banking",
+                            "Agriculture",
+                            "Construction",
+                            "Hospitality"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the best defense against deepfake social engineering?",
+                        options: [
+                            "Multi-channel verification for sensitive requests",
+                            "Better video editing software",
+                            "Facial recognition technology",
+                            "Social media monitoring"
+                        ],
+                        correct: 0
+                    }
+                ],
                 test: []
             },
             {
-                id: 'data-protection',
-                title: 'Data Protection & Privacy',
-                icon: '🔒',
-                description: 'Learn about data encryption, privacy laws, and protecting sensitive information.',
-                progress: 0,
-                content: [],
-                quiz: [],
-                test: []
-            },
-            {
-                id: 'incident-response',
-                title: 'Incident Response',
+                id: 'incident-reporting',
+                title: 'Reporting Security Incidents',
                 icon: '🚨',
-                description: 'Develop skills to detect, respond to, and recover from security incidents.',
+                description: 'Learn proper procedures for detecting, reporting, and responding to security incidents.',
+                progress: 0,
+                content: [
+                    {
+                        title: 'Incident Response Fundamentals',
+                        sections: [
+                            {
+                                title: 'What Constitutes a Security Incident?',
+                                content: 'Any event that compromises the confidentiality, integrity, or availability of information systems or data.'
+                            },
+                            {
+                                title: 'Immediate Response Actions',
+                                content: 'Document everything, preserve evidence, contain the incident, and notify the appropriate personnel immediately.'
+                            }
+                        ]
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "When should you report a potential security incident?",
+                        options: [
+                            "Immediately upon suspicion",
+                            "After you've investigated it yourself",
+                            "Only if you're sure it's a real threat",
+                            "At the end of the work day"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What information should you include in an incident report?",
+                        options: [
+                            "All relevant details including timestamps and affected systems",
+                            "Only the basic facts to avoid paperwork",
+                            "Your personal theories about who is responsible",
+                            "Just a brief description of what you saw"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Who should you contact first when you discover a security incident?",
+                        options: [
+                            "Your organization's IT security team",
+                            "Your direct manager",
+                            "Law enforcement",
+                            "The person sitting next to you"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What should you NOT do when you discover a security incident?",
+                        options: [
+                            "Try to fix it yourself without authorization",
+                            "Document what you observed",
+                            "Report it through proper channels",
+                            "Preserve any evidence"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Why is timely reporting of security incidents critical?",
+                        options: [
+                            "To minimize damage and prevent further compromise",
+                            "To ensure you get credit for discovering it",
+                            "Because it's company policy",
+                            "To practice your reporting skills"
+                        ],
+                        correct: 0
+                    }
+                ],
+                test: []
+            },
+            {
+                id: 'security-culture',
+                title: 'Security Culture',
+                icon: '👥',
+                description: 'Build and maintain a strong security-aware culture within your organization.',
+                progress: 0,
+                content: [
+                    {
+                        title: 'Creating Security Awareness',
+                        sections: [
+                            {
+                                title: 'What is Security Culture?',
+                                content: 'The collective attitudes, behaviors, and knowledge about security within an organization.'
+                            }
+                        ]
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "What is the most important element of a strong security culture?",
+                        options: [
+                            "Everyone takes personal responsibility for security",
+                            "Having the latest security technology",
+                            "Frequent security audits",
+                            "Strict punishment for violations"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "How can leaders promote security culture?",
+                        options: [
+                            "By modeling good security behaviors themselves",
+                            "By implementing more security rules",
+                            "By increasing security budgets",
+                            "By hiring more security staff"
+                        ],
+                        correct: 0
+                    }
+                ],
+                test: []
+            },
+            {
+                id: 'third-party-aup',
+                title: '3rd Party AUP',
+                icon: '📝',
+                description: 'Understand and enforce Acceptable Use Policies for third-party vendors and partners.',
+                progress: 0,
+                content: [],
+                quiz: [],
+                test: []
+            },
+            {
+                id: 'mobile-security',
+                title: 'Mobile Security & BYOD',
+                icon: '📱',
+                description: 'Secure mobile devices and manage Bring Your Own Device (BYOD) policies effectively.',
+                progress: 0,
+                content: [],
+                quiz: [],
+                test: []
+            },
+            {
+                id: 'cloud-security',
+                title: 'Cloud Security Fundamentals',
+                icon: '☁️',
+                description: 'Learn cloud security principles, shared responsibility models, and best practices.',
                 progress: 0,
                 content: [],
                 quiz: [],
@@ -2258,39 +2500,81 @@
             }
         ];
 
-        // ZaraAI responses for quiz
+        // Enhanced ZaraAI responses with new personality
         const zaraQuizResponses = {
             correct: [
                 "Excellent! You're absolutely right! 🎉",
                 "Perfect answer! Your cybersecurity knowledge is impressive!",
                 "That's correct! You're mastering these concepts beautifully!",
                 "Well done! You clearly understand this important security concept!",
-                "Absolutely right! Your knowledge is growing with each question!"
+                "Absolutely right! Your knowledge is growing with each question!",
+                "Brilliant! You're becoming a cybersecurity expert! 🌟",
+                "Outstanding! Your understanding of this topic is remarkable!",
+                "Perfect! You've got this concept completely mastered!"
             ],
             incorrect: [
                 "Not quite, but you're learning! The correct answer is: ",
                 "Good attempt! Let me clarify: ",
                 "Almost there! The right answer is: ",
-                "Not exactly, but don't worry! Here's the correct information: "
+                "Not exactly, but don't worry! Here's the correct information: ",
+                "Close! The accurate answer is: ",
+                "Good thinking! Actually, the correct answer is: "
             ],
             encouragement: [
                 "You're doing great! Keep going!",
                 "Your progress is impressive!",
                 "I can see you're really understanding these concepts!",
                 "You're building strong cybersecurity knowledge!",
-                "Your dedication to learning is commendable!"
+                "Your dedication to learning is commendable!",
+                "You're on the right track! This is excellent progress!",
+                "I'm impressed with your focus and determination!",
+                "You're developing valuable cybersecurity skills!"
             ],
             completion: [
                 "Congratulations! You've completed the quiz with an excellent score! You're ready to take the certification test!",
                 "Amazing work! You've mastered these cybersecurity concepts. You're definitely prepared for the certification!",
                 "Outstanding performance! Your knowledge is at certification level. You're ready for the next challenge!",
-                "Perfect score! You're a cybersecurity star! You're more than ready for certification."
+                "Perfect score! You're a cybersecurity star! You're more than ready for certification.",
+                "Fantastic achievement! Your quiz performance demonstrates solid understanding. Ready for the final test?"
             ],
             testCompletion: [
                 "Outstanding! You've successfully completed the test with flying colors! Your cybersecurity knowledge is exceptional!",
                 "Congratulations on passing the test! Your dedication to learning has paid off beautifully!",
                 "Amazing work! You've demonstrated excellent understanding of cybersecurity fundamentals!",
-                "Fantastic achievement! You've shown mastery of the material and are ready for your certificate!"
+                "Fantastic achievement! You've shown mastery of the material and are ready for your certificate!",
+                "Brilliant performance! You've proven your cybersecurity expertise with this excellent test result!"
+            ]
+        };
+
+        // Enhanced ZaraAI personality responses
+        const zaraPersonality = {
+            meetingReminders: [
+                "I enjoy our time together, but I don't want to get you in trouble with your manager! Your 3 PM audit meeting is coming up. Need help preparing?",
+                "As much as I love teaching you about cybersecurity, your calendar is showing an important meeting soon. Should we wrap up?",
+                "I'm flattered by your attention, but your project review awaits! Want me to help you get ready quickly?",
+                "You're doing amazing with this training! Just a friendly reminder about your upcoming meeting. Need any talking points?",
+                "I'd chat all day about security, but your team sync starts soon. Want to save your progress and continue later?"
+            ],
+            compassionateDecline: [
+                "No worries at all! The effort you've already put in will definitely pay off. You're well on your way to becoming a cybersecurity pro!",
+                "I completely understand busy schedules. I'll be right here waiting whenever you're ready to continue. Your progress so far is excellent!",
+                "That's absolutely fine! The knowledge you've gained today is valuable. I'm here whenever you need me. Have a productive day!",
+                "No problem! Learning at your own pace is perfectly fine. You're making great progress already. I'm always here to help!",
+                "I understand! Taking breaks is important for learning. You're doing wonderfully, and I'll be here when you're ready to continue."
+            ],
+            humor: [
+                "Why don't hackers like nature? Too many firewalls! 😄",
+                "What do you call a fish wearing a crown? A king phish! 🐟",
+                "Why was the computer cold? It left its Windows open! ❄️",
+                "What's a hacker's favorite season? Phishing season! 🎣",
+                "Why did the computer go to the doctor? It had a virus! 🤒"
+            ],
+            positiveAffirmations: [
+                "Your dedication to learning is truly inspiring!",
+                "I can see you're developing excellent cybersecurity instincts!",
+                "Your progress is remarkable - you're a natural at this!",
+                "The way you're approaching these challenges shows real expertise!",
+                "You're building skills that will make you invaluable to your organization!"
             ]
         };
 
@@ -2316,6 +2600,7 @@
         const learningContent = document.getElementById('learning-content');
         const learningProgressText = document.getElementById('learning-progress-text');
         const startQuizBtn = document.getElementById('start-quiz-btn');
+        const reviewMaterialBtn = document.getElementById('review-material-btn');
         const quizSection = document.getElementById('quiz-section');
         const quizModuleTitle = document.getElementById('quiz-module-title');
         const quizQuestion = document.getElementById('quiz-question');
@@ -2347,7 +2632,7 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         
-        // Sample ZaraAI responses
+        // Enhanced ZaraAI responses with new capabilities
         const zaraResponses = [
             "I'm analyzing your security systems now. Everything appears to be running smoothly with no critical issues detected.",
             "Based on my analysis, I recommend reviewing your firewall rules to ensure optimal protection against emerging threats.",
@@ -2356,7 +2641,10 @@
             "I'm currently monitoring 15 active security controls. All are operating within expected parameters.",
             "Would you like me to run a deep security scan on your network infrastructure? This may take approximately 15 minutes.",
             "I've updated the threat intelligence database with the latest signatures. Your systems are now protected against 3 new malware variants.",
-            "Based on recent activity patterns, I suggest implementing additional monitoring for your financial databases."
+            "Based on recent activity patterns, I suggest implementing additional monitoring for your financial databases.",
+            "I can help you prepare for your upcoming meeting. Would you like talking points or a presentation outline?",
+            "Your training progress is excellent! Based on your performance, I recommend the 'Incident Reporting' module next.",
+            "I notice you've been working hard. Would you like to hear a joke to brighten your moment?"
         ];
         
         // Function to add a message to the chat
@@ -2373,10 +2661,33 @@
             
             // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Update last activity
+            currentState.userProfile.lastActivity = new Date();
         }
         
-        // Function to get a random ZaraAI response
-        function getZaraResponse() {
+        // Enhanced function to get ZaraAI response with personality
+        function getZaraResponse(userMessage = '') {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for specific triggers
+            if (lowerMessage.includes('joke') || lowerMessage.includes('funny')) {
+                return zaraPersonality.humor[Math.floor(Math.random() * zaraPersonality.humor.length)];
+            }
+            
+            if (lowerMessage.includes('meeting') || lowerMessage.includes('prepare')) {
+                return zaraPersonality.meetingReminders[Math.floor(Math.random() * zaraPersonality.meetingReminders.length)];
+            }
+            
+            if (lowerMessage.includes('busy') || lowerMessage.includes('later') || lowerMessage.includes('stop')) {
+                return zaraPersonality.compassionateDecline[Math.floor(Math.random() * zaraPersonality.compassionateDecline.length)];
+            }
+            
+            if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+                return "You're very welcome! I'm here to help you succeed in your cybersecurity journey. 🛡️";
+            }
+            
+            // Default random response
             const randomIndex = Math.floor(Math.random() * zaraResponses.length);
             return zaraResponses[randomIndex];
         }
@@ -2394,8 +2705,8 @@
                 
                 // Simulate ZaraAI thinking
                 setTimeout(() => {
-                    // Add ZaraAI response
-                    addMessage(getZaraResponse(), false);
+                    // Add ZaraAI response with personality
+                    addMessage(getZaraResponse(message), false);
                 }, 1000);
             }
         }
@@ -2489,8 +2800,9 @@
             // Load learning content
             loadLearningContent(module);
             
-            // Add ZaraAI message
-            addMessage(`Great choice! The ${module.title} module is essential for building strong cybersecurity knowledge. I'll guide you through the material and help you master these concepts.`, false);
+            // Enhanced ZaraAI message with positive affirmation
+            const affirmation = zaraPersonality.positiveAffirmations[Math.floor(Math.random() * zaraPersonality.positiveAffirmations.length)];
+            addMessage(`Great choice! The ${module.title} module is essential for building strong cybersecurity knowledge. ${affirmation} I'll guide you through the material and help you master these concepts.`, false);
         }
 
         function showQuiz() {
@@ -2580,7 +2892,7 @@
             zaraCertificateMessage.textContent = message;
         }
 
-        // Load modules function
+        // Enhanced Load modules function with action buttons
         function loadModules() {
             modulesGrid.innerHTML = '';
             
@@ -2601,13 +2913,43 @@
                             <div class="progress-fill" style="width: ${progress}%"></div>
                         </div>
                     </div>
+                    <div class="module-actions">
+                        <button class="btn btn-module btn-primary learn-btn" data-id="${module.id}">
+                            <i class="fas fa-book"></i> Learn
+                        </button>
+                        <button class="btn btn-module btn-secondary quiz-btn" data-id="${module.id}">
+                            <i class="fas fa-question-circle"></i> Quiz
+                        </button>
+                    </div>
                 `;
                 
-                moduleCard.addEventListener('click', () => {
-                    showLearning(module.id);
-                });
-                
                 modulesGrid.appendChild(moduleCard);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.learn-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const moduleId = btn.dataset.id;
+                    showLearning(moduleId);
+                });
+            });
+            
+            document.querySelectorAll('.quiz-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const moduleId = btn.dataset.id;
+                    currentState.currentModule = moduleId;
+                    showQuiz();
+                });
+            });
+            
+            // Keep original card click functionality
+            document.querySelectorAll('.module-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const moduleId = this.dataset.id;
+                    showLearning(moduleId);
+                });
             });
         }
 
@@ -2642,10 +2984,16 @@
             });
         }
 
-        // Quiz functions
+        // Fixed Quiz functions
         function loadQuizQuestion() {
             const module = trainingModules.find(m => m.id === currentState.currentModule);
             const question = module.quiz[currentState.quiz.currentQuestion];
+            
+            if (!question) {
+                console.error('No question found at index:', currentState.quiz.currentQuestion);
+                return;
+            }
+            
             quizQuestion.textContent = question.question;
             
             // Clear previous options
@@ -2661,22 +3009,21 @@
                 quizOptions.appendChild(optionElement);
             });
             
-            // Update progress
+            // Update progress - FIXED: Proper calculation
             const progress = ((currentState.quiz.currentQuestion) / module.quiz.length) * 100;
             quizProgress.style.width = `${progress}%`;
             quizProgressText.textContent = `${currentState.quiz.currentQuestion}/${module.quiz.length}`;
             
-            // Update button states
+            // Update button states - FIXED: Proper next button text
             prevQuestionBtn.disabled = currentState.quiz.currentQuestion === 0;
             
             if (currentState.quiz.currentQuestion === module.quiz.length - 1) {
                 nextQuestionBtn.textContent = 'Finish Quiz';
+                nextQuestionBtn.disabled = true; // Disable until answer selected
             } else {
                 nextQuestionBtn.textContent = 'Next';
+                nextQuestionBtn.disabled = true; // Disable until answer selected
             }
-            
-            // Disable next button until an option is selected
-            nextQuestionBtn.disabled = true;
         }
 
         function selectOption(e) {
@@ -2701,6 +3048,9 @@
                 document.querySelector('.quiz-option[data-correct="true"]').classList.add('correct');
             }
             
+            // Enable next button
+            nextQuestionBtn.disabled = false;
+            
             // Add ZaraAI response
             setTimeout(() => {
                 if (isCorrect) {
@@ -2721,9 +3071,6 @@
                     addMessage(`${randomResponse} "${correctOption.textContent}"`, false);
                 }
             }, 500);
-            
-            // Enable next button
-            nextQuestionBtn.disabled = false;
         }
 
         function nextQuestion() {
@@ -2732,34 +3079,50 @@
             if (currentState.quiz.currentQuestion < module.quiz.length - 1) {
                 currentState.quiz.currentQuestion++;
                 loadQuizQuestion();
-                nextQuestionBtn.disabled = true;
+                nextQuestionBtn.disabled = true; // Disable until next answer
             } else {
                 // Quiz completed
-                currentState.quiz.completed = true;
+                completeQuiz();
+            }
+        }
+
+        function completeQuiz() {
+            const module = trainingModules.find(m => m.id === currentState.currentModule);
+            currentState.quiz.completed = true;
+            
+            // Update module progress
+            if (!currentState.userProgress.modules[currentState.currentModule]) {
+                currentState.userProgress.modules[currentState.currentModule] = 0;
+            }
+            currentState.userProgress.modules[currentState.currentModule] = Math.max(
+                currentState.userProgress.modules[currentState.currentModule],
+                Math.round((currentState.quiz.score / module.quiz.length) * 100)
+            );
+            
+            // Enhanced completion message from ZaraAI
+            let completionMessage;
+            if (currentState.quiz.score >= 4) {
+                completionMessage = zaraQuizResponses.completion[Math.floor(Math.random() * zaraQuizResponses.completion.length)];
                 
-                // Update module progress
-                if (!currentState.userProgress.modules[currentState.currentModule]) {
-                    currentState.userProgress.modules[currentState.currentModule] = 0;
-                }
-                currentState.userProgress.modules[currentState.currentModule] = Math.max(
-                    currentState.userProgress.modules[currentState.currentModule],
-                    Math.round((currentState.quiz.score / module.quiz.length) * 100)
-                );
+                // Intelligent test recommendation
+                setTimeout(() => {
+                    addMessage("Based on your excellent performance, I recommend taking the certification test to validate your knowledge. Would you like to proceed? You're definitely ready!", false);
+                }, 2000);
+            } else {
+                completionMessage = "You've completed the quiz! With a bit more practice, you'll be ready for certification. Would you like to review the material or try another module?";
                 
-                // Add completion message from ZaraAI
-                let completionMessage;
-                if (currentState.quiz.score >= 4) {
-                    completionMessage = zaraQuizResponses.completion[Math.floor(Math.random() * zaraQuizResponses.completion.length)];
-                    
-                    // Recommend test
-                    setTimeout(() => {
-                        addMessage("Based on your excellent performance, I recommend taking the certification test to validate your knowledge. Would you like to proceed?", false);
-                    }, 2000);
-                } else {
-                    completionMessage = "You've completed the quiz! With a bit more practice, you'll be ready for certification. Would you like to review the material?";
-                }
-                
-                addMessage(completionMessage, false);
+                setTimeout(() => {
+                    addMessage("Don't worry about the score - every learning experience makes you stronger. Would you like to review the material or try a different approach?", false);
+                }, 2000);
+            }
+            
+            addMessage(completionMessage, false);
+            
+            // Show certificate option for good scores
+            if (currentState.quiz.score >= 3) {
+                setTimeout(() => {
+                    showCertificates();
+                }, 3000);
             }
         }
 
@@ -2779,8 +3142,8 @@
             // Start timer
             currentState.test.timer = setInterval(updateTestTimer, 1000);
             
-            // Add ZaraAI message
-            addMessage("The test has begun. I'll be monitoring your progress but cannot provide assistance during the test. Good luck!", false);
+            // Enhanced ZaraAI message
+            addMessage("The test has begun. I'll be monitoring your progress but cannot provide assistance during the test. Remember your training - you've got this! Good luck! 🛡️", false);
         }
 
         function updateTestTimer() {
@@ -2813,13 +3176,19 @@
             // Update module progress to 100%
             currentState.userProgress.modules[currentState.currentModule] = 100;
             
-            // Add ZaraAI message
+            // Enhanced ZaraAI message with celebration
             const randomResponse = zaraQuizResponses.testCompletion[Math.floor(Math.random() * zaraQuizResponses.testCompletion.length)];
             addMessage(randomResponse, false);
+            createCelebration();
             
             // Show certificate
             setTimeout(() => {
                 showCertificates();
+                
+                // Additional positive reinforcement
+                setTimeout(() => {
+                    addMessage("Your achievement is impressive! Based on your excellent performance, I recommend the 'Incident Reporting' module next to build on your success. Ready to continue your cybersecurity journey?", false);
+                }, 2000);
             }, 3000);
         }
 
@@ -2941,6 +3310,33 @@
             }
         }
 
+        // Enhanced review material function
+        function reviewMaterial() {
+            const module = trainingModules.find(m => m.id === currentState.currentModule);
+            addMessage("Great idea to review the material! Repetition is key to mastering cybersecurity concepts. Would you like me to highlight the key points from the " + module.title + " module?", false);
+            
+            // Scroll to top of learning content
+            learningContent.scrollTop = 0;
+        }
+
+        // Enhanced meeting reminder system (simulated)
+        function checkMeetingReminders() {
+            // In a real app, this would integrate with calendar APIs
+            // For demo, we'll simulate occasional reminders
+            if (Math.random() < 0.3) { // 30% chance to show reminder
+                const reminders = [
+                    "Friendly reminder: Your team meeting starts in 15 minutes. Need any help preparing?",
+                    "I see you have a budget review coming up. Want me to help organize your talking points?",
+                    "Your project presentation is scheduled soon. I can assist with slides or data analysis if needed!",
+                    "Heads up - leadership briefing in 20 minutes. Ready to showcase your security insights?"
+                ];
+                
+                setTimeout(() => {
+                    addMessage(reminders[Math.floor(Math.random() * reminders.length)], false);
+                }, 10000);
+            }
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date for certificate
@@ -2978,7 +3374,7 @@
                     showQuiz();
                 } else {
                     showTraining();
-                    addMessage("Please select a training module first to take a quiz.", false);
+                    addMessage("Please select a training module first to take a quiz. I recommend starting with Cybersecurity Fundamentals!", false);
                 }
             });
             
@@ -3008,7 +3404,10 @@
             // Learning controls
             startQuizBtn.addEventListener('click', function() {
                 showQuiz();
+                addMessage("Excellent! I'll be cheering you on during the quiz. Remember what you've learned - you've got this! 🎯", false);
             });
+            
+            reviewMaterialBtn.addEventListener('click', reviewMaterial);
             
             // Test controls
             startTestBtn.addEventListener('click', startTest);
@@ -3024,8 +3423,8 @@
                 // Show training for next module
                 showTraining();
                 
-                // Add ZaraAI message
-                addMessage("Great! Let's continue with the next module. I'll guide you through it.", false);
+                // Enhanced ZaraAI message
+                addMessage("Great! Let's continue your cybersecurity journey. I recommend the 'Deepfake Awareness' module next - it's highly relevant in today's threat landscape. Ready to learn?", false);
             });
             
             // Leadership controls
@@ -3045,9 +3444,12 @@
             // Security tips rotation
             setInterval(rotateSecurityTip, 5000);
             
+            // Meeting reminder system
+            setInterval(checkMeetingReminders, 60000); // Check every minute
+            
             // Welcome message
             setTimeout(() => {
-                addMessage("I'm here to angel-guard your enterprise security. What would you like me to analyze today?", false);
+                addMessage("I'm here to angel-guard your enterprise security and support your productivity. Whether you need threat analysis, training guidance, or help preparing for meetings, I'm your dedicated assistant! What would you like to focus on today?", false);
             }, 1500);
         });
     </script>
